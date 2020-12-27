@@ -1,5 +1,10 @@
 import React from 'react'
 
+const showInfo = (props) => {
+    const langs = props.languages.map(lang => lang.name)
+    alert(`${props.name}\ncapital ${props.capital}\npopulation ${props.population}\nlanguages ${langs}`)
+}
+
 const ShowData = ({ showAll }) => {
     if(showAll.length > 11) {
         return (
@@ -28,7 +33,12 @@ const ShowData = ({ showAll }) => {
         return (
             <div>
                 {showAll.map(country => 
-                    <p key={country.alpha2Code}>{country.name}</p>
+                    <p key={country.alpha2Code}>
+                        {country.name}
+                        <button type='submit' key={country.alpha3Code} onClick={() => showInfo(country)}>
+                            show
+                        </button>
+                    </p>
                 )}
             </div>
         )
