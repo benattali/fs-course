@@ -1,4 +1,5 @@
 import React from 'react'
+import Weather from './Weather'
 
 const showInfo = (props) => {
     const langs = props.languages.map(lang => lang.name)
@@ -21,12 +22,13 @@ const ShowData = ({ showAll }) => {
                 <h1>{country.name}</h1>
                 <p>capital {country.capital}</p>
                 <p>population {country.population}</p>
-                <h2>languages</h2>
+                <h3>languages</h3>
                 <ul>
                     {languages.map(lang =>
                         <li key={lang}>{lang}</li>)}
                 </ul>
                 <img src={country.flag} alt={`flag of ${country.name}`} height='100' />
+                <Weather country={country} />
             </div>
         )
     } else {

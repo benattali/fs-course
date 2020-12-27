@@ -30,7 +30,7 @@ const App = () => {
 
       <Filter handler={HandleShow}/>
 
-      <ShowData showAll={showAll}/>
+      <ShowData showAll={showAll} />
 
     </div>
   )
