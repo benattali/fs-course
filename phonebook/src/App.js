@@ -29,7 +29,11 @@ const App = () => {
     if (names.includes(personObject.name)) {
         window.alert(`${personObject.name} is already in the phonebook`);
     } else {
-        setPersons(persons.concat(personObject))
+        axios.post('http://localhost:3001/persons', personObject)
+        .then(response => {
+          setPersons(persons.concat(response.data))
+          setNewName('')
+        })
     }
   }
 
