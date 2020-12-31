@@ -8,13 +8,14 @@ const App = () => {
   const [ persons, setPersons ] = useState([]) 
   const [ newName, setNewName ] = useState('add a person')
   const [ newNumber, setNewNumber ] = useState('555-5555555')
-  const [ showAll, setShowAll ] = useState('')
+  const [ showAll, setShowAll ] = useState([])
 
   useEffect(() => {
     personService
       .getAll()
       .then(response => {
         setPersons(response)
+        setShowAll(response)
       })
   }, [])
 
@@ -35,6 +36,7 @@ const App = () => {
           setNewName('')
         })
     }
+    window.location.reload()
   }
 
   const handlePersonChange = (event) => {
@@ -56,6 +58,21 @@ const App = () => {
     setShowAll(show)
   }
 
+  const handleDel = (id) => {
+    const personToDel = persons.find(p => p.id === id)
+    
+    if(window.confirm(`delete ${personToDel.name}`)) {
+      personService
+      .delPerson(id)
+      .then(response => 
+        setPersons(persons.map(person => person.id === id)))
+      .catch(error => {
+        alert(`there was an error deleting ${personToDel.name}`)
+      })
+    }
+    window.location.reload()
+  }
+
   return (
     <div>
 
@@ -70,7 +87,10 @@ const App = () => {
       
       <h2>Numbers</h2>
       
-      <Phonebook showAll={showAll} persons={persons}/>
+      <ul>
+        {showAll.map(person =>
+          <Phonebook key={person.id} person={person} handleDel={() => handleDel(person.id)} />)}
+      </ul>
     
     </div>
   )

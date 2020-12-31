@@ -19,21 +19,6 @@
       "name": "Mary Poppendieck",
       "number": "39-23-6423122",
       "id": 4
-    },
-    {
-      "name": "oliver robie",
-      "id": 5,
-      "number": "555-5555555"
-    },
-    {
-      "name": "test",
-      "id": 6,
-      "number": "123-456-7890"
-    },
-    {
-      "name": "joe shmoe",
-      "id": 7,
-      "number": "0"
     }
   ]
 }
