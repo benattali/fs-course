@@ -3,12 +3,15 @@ import Filter from './components/Filter'
 import Form from './components/Form'
 import Phonebook from './components/Phonebook'
 import personService from './services/persons'
+import './index.css'
+import Notification from './components/Notification'
 
 const App = () => {
   const [ persons, setPersons ] = useState([]) 
   const [ newName, setNewName ] = useState('add a person')
   const [ newNumber, setNewNumber ] = useState('555-5555555')
   const [ showAll, setShowAll ] = useState([])
+  const [ message, setMessage ] = useState(null)
 
   useEffect(() => {
     personService
@@ -34,17 +37,30 @@ const App = () => {
 
             personService
             .update(personToUpdate.id, changedNum)
-            .then(response =>
-              setPersons(persons.map(person => person.id !== personObject.id ? person : response)))
+            .then(response => {
+              setPersons(persons.map(person => person.id !== personObject.id ? person : response))
+              setMessage(`Updated ${personObject.name}`)
+              setTimeout(() => {
+                setMessage(null)
+                window.location.reload()
+              }, 5000)
+            })
+            .catch(error => {
+              alert(`there was an error updating ${personToUpdate.name}`)
+            })
         }
     } else {
       personService.create(personObject)
         .then(response => {
           setPersons(persons.concat(response))
           setNewName('')
+          setMessage(`Added ${personObject.name}`)
+          setTimeout(() => {
+            setMessage(null)
+            window.location.reload()
+          }, 5000)
         })
     }
-    window.location.reload()
   }
 
   const handlePersonChange = (event) => {
@@ -72,19 +88,26 @@ const App = () => {
     if(window.confirm(`delete ${personToDel.name}`)) {
       personService
       .delPerson(id)
-      .then(response => 
-        setPersons(persons.map(person => person.id === id)))
+      .then(response => {
+        setPersons(persons.map(person => person.id === id))
+        setMessage(`Deleted ${personToDel.name}`)
+        setTimeout(() => {
+          setMessage(null)
+          window.location.reload()
+        }, 5000)
+      })
       .catch(error => {
         alert(`there was an error deleting ${personToDel.name}`)
       })
     }
-    window.location.reload()
   }
 
   return (
     <div>
 
       <h2>Phonebook</h2>
+
+      <Notification message={message} />
 
       <Filter handler={handleShow}/>
       
